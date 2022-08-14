@@ -1,3 +1,7 @@
+include:disney
+include:netflix
+include:viu
+include:hbo
 mola.tv
 ws.mola.tv
 res.mola01.koicdn.com
