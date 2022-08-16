@@ -323,3 +323,8 @@ mihoyo.com
 genshinimpact
 honkaiimpact3
 mihoyo
+# Stumble Guys
+kitkagames.com
+exitgames.com
+ns.exitgames.com
+stumblepremiumlive.kitkagames.com
