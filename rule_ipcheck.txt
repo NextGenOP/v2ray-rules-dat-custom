@@ -1,6 +1,5 @@
 include:test-ipv6
 include:ipip
-include:bilibili
 domains.google.com
 ipv4.google.com
 ipv6test.google.com
