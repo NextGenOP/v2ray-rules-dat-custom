@@ -32,7 +32,7 @@ whatismyip.com
 freegeoip.app
 whatismyipaddress.com
 ip2location.com
-ip2wireguard.com
+ip2proxy.com
 extreme-ip-lookup.com
 geoplugin.net
 fraudguard.io
