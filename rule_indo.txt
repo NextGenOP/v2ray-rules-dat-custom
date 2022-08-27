@@ -193,3 +193,6 @@ mil.id
 sch.id
 desa.id
 ponpes.id
+#wiz philips
+wiz.world
+wizconnected.helpshift.com
