@@ -212,10 +212,10 @@ jobs:
           wget -O hblock.txt $HBLOCK
           wget -O ./community/data/abpid $ABPID
           wget -O abpid.txt $ABPID
-          wget -O ./community/data/abpid_adult $ABPID_ADULT
-          wget -O abpid_adult.txt $ABPID_ADULT
-          wget -O ./community/data/oisd_dwc $OISD_DWC
-          wget -O oisd_dwc.txt $OISD_DWC
+          wget -O ./community/data/abpid-adult $ABPID_ADULT
+          wget -O abpid-adult.txt $ABPID_ADULT
+          wget -O ./community/data/oisd-dwc $OISD_DWC
+          wget -O oisd-dwc.txt $OISD_DWC
 
       - name: Build geosite.dat file
         run: |
