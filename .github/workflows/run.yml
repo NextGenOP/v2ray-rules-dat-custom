@@ -210,7 +210,7 @@ jobs:
           wget -O ./community/data/hblock $HBLOCK
           wget -O hblock.txt $HBLOCK
           wget -O ./community/data/abpid_plus $ABPID_PLUS
-          wget -O abp_indoplus.txt $HBLOCK
+          wget -O abid_plus.txt $ABPID_PLUS
           wget -O ./community/data/oisd_dwc $OISD_DWC
           wget -O oisd_dwc.txt $OISD_DWC
 
