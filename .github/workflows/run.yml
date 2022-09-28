@@ -25,17 +25,21 @@ jobs:
           echo "GOOGLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
           echo "APPLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
           echo "GREATFIRE_DOMAINS_URL=https://raw.githubusercontent.com/Loyalsoldier/cn-blocked-domain/release/domains.txt" >> $GITHUB_ENV
+          echo "EASYLIST_REJECT_URL=https://hmirror.molinero.dev/easylist/list.txt" >> $GITHUB_ENV
           echo "EASYLISTCHINA_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/easylistchina+easylist.txt" >> $GITHUB_ENV
           echo "PETERLOWE_REJECT_URL=https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext" >> $GITHUB_ENV
           echo "ADGUARD_DNS_REJECT_URL=https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt" >> $GITHUB_ENV
           echo "DANPOLLOCK_REJECT_URL=https://someonewhocares.org/hosts/hosts" >> $GITHUB_ENV
           echo "CUSTOM_DIRECT=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/cn.txt" >> $GITHUB_ENV
           echo "CUSTOM_PROXY=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/geolocation-!cn.txt" >> $GITHUB_ENV
+          echo "HBLOCK=https://hblock.molinero.dev/hosts_domains.txt" >> $GITHUB_ENV
           echo "WIN_SPY=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt" >> $GITHUB_ENV
           echo "WIN_UPDATE=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/update.txt" >> $GITHUB_ENV
           echo "WIN_EXTRA=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/extra.txt" >> $GITHUB_ENV
           echo "OISD_FULL=https://hosts.oisd.nl/" >> $GITHUB_ENV
+          echo "OISD_DWC=https://dblw.oisd.nl/" >> $GITHUB_ENV
           echo "OISD_NSFW=https://hosts.oisd.nl/nsfw/" >> $GITHUB_ENV
+          echo "ABPID_PLUS=https://raw.githubusercontent.com/realodix/AdBlockID/master/output/adblockid_plus.txt" >> $GITHUB_ENV
           echo "DOH_DNS=https://raw.githubusercontent.com/dibdot/DoH-IP-blocklists/master/doh-domains.txt" >> $GITHUB_ENV
           echo "RULE_ADS=https://raw.githubusercontent.com/malikshi/v2ray-rules-dat/rule/rule-ads.txt" >> $GITHUB_ENV
           echo "RULE_GAME=https://raw.githubusercontent.com/malikshi/v2ray-rules-dat/rule/rule_gaming.txt" >> $GITHUB_ENV
@@ -99,6 +103,7 @@ jobs:
       - name: Get and add reject domains into temp-reject.txt file
         run: |
           curl -sSL $EASYLISTCHINA_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $EASYLIST_REJECT_URL >> temp-reject.txt
           curl -sSL $ADGUARD_DNS_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' >> temp-reject.txt
           curl -sSL $PETERLOWE_REJECT_URL | perl -ne '/^127\.0\.0\.1\s([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})$/ && print "$1\n"' >> temp-reject.txt
           curl -sSL $DANPOLLOCK_REJECT_URL | perl -ne '/^127\.0\.0\.1\s([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})/ && print "$1\n"' | sed '1d' >> temp-reject.txt
@@ -202,6 +207,10 @@ jobs:
           wget -O videoconference.txt $RULE_VIDCONFERENCE
           wget -O ./community/data/rule-malicious $MALICIOUS_HOST
           wget -O rule-malicious.txt $MALICIOUS_HOST
+          wget -O ./community/data/hblock $HBLOCK
+          wget -O hblock.txt $HBLOCK
+          wget -O ./community/data/abpid_plus $ABPID_PLUS
+          wget -O abp_indoplus.txt $HBLOCK
 
       - name: Build geosite.dat file
         run: |
@@ -215,7 +224,7 @@ jobs:
           install -Dp ./custom/publish/geosite.dat ./publish/geosite.dat
           install -p {proxy,direct,reject}-tld-list.txt ./publish/
           install -p {proxy,direct,reject}-list.txt ./publish/
-          install -p {apple-cn,google-cn,gfw,greatfire,win-spy,win-update,win-extra,oisd-full,oisd-nsfw,rule-ads,rule-gaming,rule-indo,rule-playstore,rule-sosmed,rule-streaming,rule-malicious,rule-umum,rule-ipcheck,videoconference,rule-doh}.txt ./publish/
+          install -p {apple-cn,google-cn,gfw,greatfire,win-spy,win-update,win-extra,hblock,abpid_plus,oisd-full,oisd-nsfw,rule-ads,rule-gaming,rule-indo,rule-playstore,rule-sosmed,rule-streaming,rule-malicious,rule-umum,rule-ipcheck,videoconference,rule-doh}.txt ./publish/
           cd ./publish || exit 1
           zip rules.zip {proxy,direct,reject}-list.txt geoip.dat geosite.dat
           sha256sum geosite.dat > geosite.dat.sha256sum
