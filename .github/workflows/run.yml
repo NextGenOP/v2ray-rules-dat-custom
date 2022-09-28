@@ -37,7 +37,8 @@ jobs:
           echo "WIN_UPDATE=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/update.txt" >> $GITHUB_ENV
           echo "WIN_EXTRA=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/extra.txt" >> $GITHUB_ENV
           echo "OISD_FULL=https://hosts.oisd.nl/" >> $GITHUB_ENV
-          echo "OISD_DWC=https://dblw.oisd.nl/" >> $GITHUB_ENV
+          echo "STEVEN_BLACK=https://raw.githubusercontent.com/StevenBlack/hosts/master/data/StevenBlack/hosts" >> $GITHUB_ENV
+          echo "ENERGIZED_BLU=https://energized.pro/blu/formats/hosts.txt" >> $GITHUB_ENV
           echo "OISD_NSFW=https://hosts.oisd.nl/nsfw/" >> $GITHUB_ENV
           echo "ABPID=https://raw.githubusercontent.com/ABPindo/indonesianadblockrules/master/subscriptions/domain.txt" >> $GITHUB_ENV
           echo "ABPID_ADULT=https://raw.githubusercontent.com/ABPindo/indonesianadblockrules/master/subscriptions/domain_adult.txt" >> $GITHUB_ENV
@@ -186,6 +187,10 @@ jobs:
           curl -sSL $OISD_FULL | grep "0.0.0.0" | awk '{print $2}' > oisd-full.txt
           curl -sSL $OISD_NSFW | grep "0.0.0.0" | awk '{print $2}' > ./community/data/oisd-nsfw
           curl -sSL $OISD_NSFW | grep "0.0.0.0" | awk '{print $2}' > oisd-nsfw.txt
+          curl -sSL $STEVEN_BLACK | grep "0.0.0.0" | awk '{print $2}' > ./community/data/steven-black
+          curl -sSL $STEVEN_BLACK | grep "0.0.0.0" | awk '{print $2}' > steven-black.txt
+          curl -sSL $ENERGIZED_BLU | grep "0.0.0.0" | awk '{print $2}' > ./community/data/energized-blu
+          curl -sSL $ENERGIZED_BLU | grep "0.0.0.0" | awk '{print $2}' > energized-blu.txt
           wget -O ./community/data/rule-ads $RULE_ADS
           wget -O rule-ads.txt $RULE_ADS
           wget -O ./community/data/rule-doh $DOH_DNS
@@ -214,8 +219,6 @@ jobs:
           wget -O abpid.txt $ABPID
           wget -O ./community/data/abpid-adult $ABPID_ADULT
           wget -O abpid-adult.txt $ABPID_ADULT
-          wget -O ./community/data/oisd-dwc $OISD_DWC
-          wget -O oisd-dwc.txt $OISD_DWC
 
       - name: Build geosite.dat file
         run: |
@@ -229,7 +232,7 @@ jobs:
           install -Dp ./custom/publish/geosite.dat ./publish/geosite.dat
           install -p {proxy,direct}-tld-list.txt ./publish/
           install -p {proxy,direct,reject}-list.txt ./publish/
-          install -p {apple-cn,google-cn,gfw,greatfire,win-spy,win-update,win-extra,hblock,abpid,abpid-adult,oisd-dwc,oisd-full,oisd-nsfw,rule-ads,rule-gaming,rule-indo,rule-playstore,rule-sosmed,rule-streaming,rule-malicious,rule-umum,rule-ipcheck,videoconference,rule-doh}.txt ./publish/
+          install -p {apple-cn,google-cn,gfw,greatfire,win-spy,win-update,win-extra,hblock,abpid,abpid-adult,energized-blu,steven-black,oisd-full,oisd-nsfw,rule-ads,rule-gaming,rule-indo,rule-playstore,rule-sosmed,rule-streaming,rule-malicious,rule-umum,rule-ipcheck,videoconference,rule-doh}.txt ./publish/
           cd ./publish || exit 1
           zip rules.zip {proxy,direct,reject}-list.txt geoip.dat geosite.dat
           sha256sum geoip.dat > geoip.dat.sha256sum
@@ -260,9 +263,9 @@ jobs:
           git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
           git push -f -u origin release
 
-      - name: Purge jsdelivr CDN
-        run: |
-          cd publish || exit 1
-          for file in $(ls); do
-            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/${file}"
-          done
+#      - name: Purge jsdelivr CDN
+#        run: |
+#          cd publish || exit 1
+#          for file in $(ls); do
+#            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/${file}"
+#          done
