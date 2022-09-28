@@ -39,7 +39,8 @@ jobs:
           echo "OISD_FULL=https://hosts.oisd.nl/" >> $GITHUB_ENV
           echo "OISD_DWC=https://dblw.oisd.nl/" >> $GITHUB_ENV
           echo "OISD_NSFW=https://hosts.oisd.nl/nsfw/" >> $GITHUB_ENV
-          echo "ABPID_PLUS=https://raw.githubusercontent.com/realodix/AdBlockID/master/output/adblockid_plus.txt" >> $GITHUB_ENV
+          echo "ABPID=https://raw.githubusercontent.com/ABPindo/indonesianadblockrules/master/subscriptions/domain.txt" >> $GITHUB_ENV
+          echo "ABPID_ADULT=https://raw.githubusercontent.com/ABPindo/indonesianadblockrules/master/subscriptions/domain_adult.txt" >> $GITHUB_ENV
           echo "DOH_DNS=https://raw.githubusercontent.com/dibdot/DoH-IP-blocklists/master/doh-domains.txt" >> $GITHUB_ENV
           echo "RULE_ADS=https://raw.githubusercontent.com/malikshi/v2ray-rules-dat/rule/rule-ads.txt" >> $GITHUB_ENV
           echo "RULE_GAME=https://raw.githubusercontent.com/malikshi/v2ray-rules-dat/rule/rule_gaming.txt" >> $GITHUB_ENV
@@ -209,8 +210,10 @@ jobs:
           wget -O rule-malicious.txt $MALICIOUS_HOST
           wget -O ./community/data/hblock $HBLOCK
           wget -O hblock.txt $HBLOCK
-          wget -O ./community/data/abpid_plus $ABPID_PLUS
-          wget -O abpid_plus.txt $ABPID_PLUS
+          wget -O ./community/data/abpid $ABPID
+          wget -O abpid.txt $ABPID
+          wget -O ./community/data/abpid_adult $ABPID_ADULT
+          wget -O abpid_adult.txt $ABPID_ADULT
           wget -O ./community/data/oisd_dwc $OISD_DWC
           wget -O oisd_dwc.txt $OISD_DWC
 
