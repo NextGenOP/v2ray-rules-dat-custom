@@ -80,12 +80,7 @@ secureswiftcontent.com
 vidiocdn.com
 vidio
 # > VIU
-bootstrapcdn.com
-cloudfront.net
 cognito-identity.us-east-1.amazonaws.com
-firebaseio.com
-jwpcdn.com
-jwplayer.com
 mobileanalytics.us-east-1.amazonaws.com
 nowe.com
 viu.com
@@ -93,6 +88,10 @@ viu.now.com
 viu.tv
 viuapi.io
 viu-static.akamaized.net
+viu-android-artifacts.s3-ap-southeast-1.amazonaws.com
+gcpvuclip-a.akamaihd.net
+vuclip-eip2.akamaized.net
+vuclipi-a.akamaihd.net
 viu
 # > Beinsport
 connect-id.beinsports.com
@@ -125,6 +124,9 @@ iflix.com
 v.smtcdns.com
 v.smtcdns.net
 vv.video.qq.com
+wetvdefaultts.tc.qq.com
+apd-vlive.apdcdn.tc.qq.com
+tc.qq.com
 wetv.vip
 wetvinfo.com
 # > LiveTVGO
