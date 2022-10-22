@@ -194,8 +194,8 @@ jobs:
           curl -sSL $STEVEN_BLACK | grep "0.0.0.0" | awk '{print $2}' > steven-black.txt
           curl -sSL $ENERGIZED_BLU | grep "0.0.0.0" | awk '{print $2}' > ./community/data/energized-blu
           curl -sSL $ENERGIZED_BLU | grep "0.0.0.0" | awk '{print $2}' > energized-blu.txt
-          curl -sSL $TUXIO_NSFW | grep "0.0.0.0" | awk '{print $2}' >> ./community/data/tuxio-nsfw
-          curl -sSL $TUXIO_NSFW | grep "0.0.0.0" | awk '{print $2}' >> tuxio-nsfw.txt
+          curl -sSL $TIUXO_NSFW | grep "0.0.0.0" | awk '{print $2}' >> ./community/data/tiuxo-nsfw
+          curl -sSL $TIUXO_NSFW | grep "0.0.0.0" | awk '{print $2}' >> tiuxo-nsfw.txt
           curl -sSL $MX_NSFW | grep "127.0.0.1" | awk '{print $2}' >> ./community/data/mx-nsfw
           curl -sSL $MX_NSFW | grep "127.0.0.1" | awk '{print $2}' >> mx-nsfw.txt
           curl -sSL $SINFONIETTA_NSFW | grep "0.0.0.0" | awk '{print $2}' >> ./community/data/sinfonietta-nsfw
@@ -229,12 +229,12 @@ jobs:
           wget -O ./community/data/abpid-adult $ABPID_ADULT
           wget -O abpid-adult.txt $ABPID_ADULT
 
-          cat ./community/data/tuxio-nsfw >> ./community/data/temp-adult
+          cat ./community/data/tiuxo-nsfw >> ./community/data/temp-adult
           cat ./community/data/mx-nsfw >> ./community/data/temp-adult
           cat ./community/data/sinfonietta-nsfw >> ./community/data/temp-adult
           cat ./community/data/oisd-nsfw >> ./community/data/temp-adult
           cat ./community/data/abpid-adult >> ./community/data/temp-adult
-          cat tuxio-nsfw.txt >> temp-adult.txt
+          cat tiuxo-nsfw.txt >> temp-adult.txt
           cat mx-nsfw.txt >> temp-adult.txt
           cat sinfonietta-nsfw.txt >> temp-adult.txt
           cat oisd-nsfw.txt >> temp-adult.txt
