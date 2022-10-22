@@ -198,8 +198,8 @@ jobs:
           curl -sSL $TUXIO_NSFW | grep "0.0.0.0" | awk '{print $2}' >> tuxio-nsfw.txt
           curl -sSL $MX_NSFW | grep "127.0.0.1" | awk '{print $2}' >> ./community/data/mx-nsfw
           curl -sSL $MX_NSFW | grep "127.0.0.1" | awk '{print $2}' >> mx-nsfw.txt
-          curl -sSL SINFONIETTA_NSFW | grep "0.0.0.0" | awk '{print $2}' >> ./community/data/infonietta-nsfw
-          curl -sSL SINFONIETTA_NSFW | grep "0.0.0.0" | awk '{print $2}' >> infonietta-nsfw.txt
+          curl -sSL $SINFONIETTA_NSFW | grep "0.0.0.0" | awk '{print $2}' >> ./community/data/sinfonietta-nsfw
+          curl -sSL $SINFONIETTA_NSFW | grep "0.0.0.0" | awk '{print $2}' >> sinfonietta-nsfw.txt
           wget -O ./community/data/rule-ads $RULE_ADS
           wget -O rule-ads.txt $RULE_ADS
           wget -O ./community/data/rule-doh $DOH_DNS
@@ -231,12 +231,12 @@ jobs:
 
           cat ./community/data/tuxio-nsfw >> ./community/data/temp-adult
           cat ./community/data/mx-nsfw >> ./community/data/temp-adult
-          cat ./community/data/infonietta-nsfw >> ./community/data/temp-adult
+          cat ./community/data/sinfonietta-nsfw >> ./community/data/temp-adult
           cat ./community/data/oisd-nsfw >> ./community/data/temp-adult
           cat ./community/data/abpid-adult >> ./community/data/temp-adult
           cat tuxio-nsfw.txt >> temp-adult.txt
           cat mx-nsfw.txt >> temp-adult.txt
-          cat infonietta-nsfw.txt >> temp-adult.txt
+          cat sinfonietta-nsfw.txt >> temp-adult.txt
           cat oisd-nsfw.txt >> temp-adult.txt
           cat abpid-adult.txt >> temp-adult.txt
           sort --ignore-case -u ./community/data/temp-adult > ./community/data/adult
@@ -255,7 +255,7 @@ jobs:
           install -Dp ./custom/publish/geosite.dat ./publish/geosite.dat
           install -p {proxy,direct}-tld-list.txt ./publish/
           install -p {proxy,direct,reject}-list.txt ./publish/
-          install -p {tuxio-nsfw,mx-nsfw,infonietta-nsfw,adult,apple-cn,google-cn,gfw,greatfire,win-spy,win-update,win-extra,hblock,abpid,abpid-adult,energized-blu,steven-black,oisd-full,oisd-nsfw,rule-ads,rule-gaming,rule-indo,rule-playstore,rule-sosmed,rule-streaming,rule-malicious,rule-umum,rule-ipcheck,videoconference,rule-doh}.txt ./publish/
+          install -p {tuxio-nsfw,mx-nsfw,sinfonietta-nsfw,adult,apple-cn,google-cn,gfw,greatfire,win-spy,win-update,win-extra,hblock,abpid,abpid-adult,energized-blu,steven-black,oisd-full,oisd-nsfw,rule-ads,rule-gaming,rule-indo,rule-playstore,rule-sosmed,rule-streaming,rule-malicious,rule-umum,rule-ipcheck,videoconference,rule-doh}.txt ./publish/
           cd ./publish || exit 1
           zip rules.zip {proxy,direct,reject}-list.txt geoip.dat geosite.dat
           sha256sum geoip.dat > geoip.dat.sha256sum
