@@ -40,6 +40,9 @@ jobs:
           echo "STEVEN_BLACK=https://raw.githubusercontent.com/StevenBlack/hosts/master/data/StevenBlack/hosts" >> $GITHUB_ENV
           echo "ENERGIZED_BLU=https://energized.pro/blu/formats/hosts.txt" >> $GITHUB_ENV
           echo "OISD_NSFW=https://hosts.oisd.nl/nsfw/" >> $GITHUB_ENV
+          echo "TIUXO_NSFW=https://raw.githubusercontent.com/tiuxo/hosts/master/porn" >> $GITHUB_ENV
+          echo "MX_NSFW=https://raw.githubusercontent.com/mhxion/pornaway/master/hosts/porn_sites.txt" >> $GITHUB_ENV
+          echo "SINFONIETTA_NSFW=https://raw.githubusercontent.com/Sinfonietta/hostfiles/master/pornography-hosts" >> $GITHUB_ENV
           echo "ABPID=https://raw.githubusercontent.com/ABPindo/indonesianadblockrules/master/subscriptions/domain.txt" >> $GITHUB_ENV
           echo "ABPID_ADULT=https://raw.githubusercontent.com/ABPindo/indonesianadblockrules/master/subscriptions/domain_adult.txt" >> $GITHUB_ENV
           echo "DOH_DNS=https://raw.githubusercontent.com/dibdot/DoH-IP-blocklists/master/doh-domains.txt" >> $GITHUB_ENV
@@ -185,12 +188,18 @@ jobs:
           curl -sSL $WIN_EXTRA | grep "0.0.0.0" | awk '{print $2}' > win-extra.txt
           curl -sSL $OISD_FULL | grep "0.0.0.0" | awk '{print $2}' > ./community/data/oisd-full
           curl -sSL $OISD_FULL | grep "0.0.0.0" | awk '{print $2}' > oisd-full.txt
-          curl -sSL $OISD_NSFW | grep "0.0.0.0" | awk '{print $2}' > ./community/data/oisd-nsfw
-          curl -sSL $OISD_NSFW | grep "0.0.0.0" | awk '{print $2}' > oisd-nsfw.txt
+          curl -sSL $OISD_NSFW | grep "0.0.0.0" | awk '{print $2}' >> ./community/data/oisd-nsfw
+          curl -sSL $OISD_NSFW | grep "0.0.0.0" | awk '{print $2}' >> oisd-nsfw.txt
           curl -sSL $STEVEN_BLACK | grep "0.0.0.0" | awk '{print $2}' > ./community/data/steven-black
           curl -sSL $STEVEN_BLACK | grep "0.0.0.0" | awk '{print $2}' > steven-black.txt
           curl -sSL $ENERGIZED_BLU | grep "0.0.0.0" | awk '{print $2}' > ./community/data/energized-blu
           curl -sSL $ENERGIZED_BLU | grep "0.0.0.0" | awk '{print $2}' > energized-blu.txt
+          curl -sSL $TUXIO_NSFW | grep "0.0.0.0" | awk '{print $2}' >> ./community/data/tuxio-nsfw
+          curl -sSL $TUXIO_NSFW | grep "0.0.0.0" | awk '{print $2}' >> tuxio-nsfw.txt
+          curl -sSL $MX_NSFW | grep "127.0.0.1" | awk '{print $2}' >> ./community/data/mx-nsfw
+          curl -sSL $MX_NSFW | grep "127.0.0.1" | awk '{print $2}' >> mx-nsfw.txt
+          curl -sSL SINFONIETTA_NSFW | grep "0.0.0.0" | awk '{print $2}' >> ./community/data/infonietta-nsfw
+          curl -sSL SINFONIETTA_NSFW | grep "0.0.0.0" | awk '{print $2}' >> infonietta-nsfw.txt
           wget -O ./community/data/rule-ads $RULE_ADS
           wget -O rule-ads.txt $RULE_ADS
           wget -O ./community/data/rule-doh $DOH_DNS
@@ -220,6 +229,20 @@ jobs:
           wget -O ./community/data/abpid-adult $ABPID_ADULT
           wget -O abpid-adult.txt $ABPID_ADULT
 
+          cat ./community/data/tuxio-nsfw >> ./community/data/temp-adult
+          cat ./community/data/mx-nsfw >> ./community/data/temp-adult
+          cat ./community/data/infonietta-nsfw >> ./community/data/temp-adult
+          cat ./community/data/oisd-nsfw >> ./community/data/temp-adult
+          cat ./community/data/abpid-adult >> ./community/data/temp-adult
+          cat tuxio-nsfw.txt >> temp-adult.txt
+          cat mx-nsfw.txt >> temp-adult.txt
+          cat infonietta-nsfw.txt >> temp-adult.txt
+          cat oisd-nsfw.txt >> temp-adult.txt
+          cat abpid-adult.txt >> temp-adult.txt
+          sort --ignore-case -u ./community/data/temp-adult > ./community/data/adult
+          sort --ignore-case -u temp-adult.txt > adult.txt
+          rm -f temp-adult.txt ./community/data/temp-adult
+
       - name: Build geosite.dat file
         run: |
           cd custom || exit 1
@@ -232,7 +255,7 @@ jobs:
           install -Dp ./custom/publish/geosite.dat ./publish/geosite.dat
           install -p {proxy,direct}-tld-list.txt ./publish/
           install -p {proxy,direct,reject}-list.txt ./publish/
-          install -p {apple-cn,google-cn,gfw,greatfire,win-spy,win-update,win-extra,hblock,abpid,abpid-adult,energized-blu,steven-black,oisd-full,oisd-nsfw,rule-ads,rule-gaming,rule-indo,rule-playstore,rule-sosmed,rule-streaming,rule-malicious,rule-umum,rule-ipcheck,videoconference,rule-doh}.txt ./publish/
+          install -p {tuxio-nsfw, mx-nsfw, infonietta-nsfw,adult,apple-cn,google-cn,gfw,greatfire,win-spy,win-update,win-extra,hblock,abpid,abpid-adult,energized-blu,steven-black,oisd-full,oisd-nsfw,rule-ads,rule-gaming,rule-indo,rule-playstore,rule-sosmed,rule-streaming,rule-malicious,rule-umum,rule-ipcheck,videoconference,rule-doh}.txt ./publish/
           cd ./publish || exit 1
           zip rules.zip {proxy,direct,reject}-list.txt geoip.dat geosite.dat
           sha256sum geoip.dat > geoip.dat.sha256sum
@@ -263,9 +286,9 @@ jobs:
           git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
           git push -f -u origin release
 
-#      - name: Purge jsdelivr CDN
-#        run: |
-#          cd publish || exit 1
-#          for file in $(ls); do
-#            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/${file}"
-#          done
+      - name: Purge jsdelivr CDN
+        run: |
+          cd publish || exit 1
+          for file in $(ls); do
+            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/${file}"
+          done
