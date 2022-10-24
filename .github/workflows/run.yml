@@ -247,6 +247,7 @@ jobs:
           cat energized-blu.txt >> temp-adblock.txt
           cat oisd-full.txt >> temp-adblock.txt
           cat win-spy.txt >> temp-adblock.txt
+          cat abpid.txt >> temp-adblock.txt
           cat rule-ads.txt >> temp-adblock.txt
           cat rule-malicious.txt >> temp-adblock.txt
           sort --ignore-case -u ./community/data/temp-adult > ./community/data/adult
