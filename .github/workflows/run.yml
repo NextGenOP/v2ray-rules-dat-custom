@@ -37,7 +37,7 @@ jobs:
           echo "WIN_UPDATE=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/update.txt" >> $GITHUB_ENV
           echo "WIN_EXTRA=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/extra.txt" >> $GITHUB_ENV
           echo "OISD_FULL=https://hosts.oisd.nl/" >> $GITHUB_ENV
-          echo "1HOST_PRO=https://cdn.jsdelivr.net/gh/badmojr/1Hosts@master/Pro/domains.txt" >> $GITHUB_ENV
+          echo "ONEHOST_PRO=https://cdn.jsdelivr.net/gh/badmojr/1Hosts@master/Pro/domains.txt" >> $GITHUB_ENV
           echo "YHOSTS=https://raw.githubusercontent.com/VeleSila/yhosts/master/hosts" >> $GITHUB_ENV
           echo "ANUDEEP_ADS=https://hosts.anudeep.me/mirror/adservers.txt" >> $GITHUB_ENV
           echo "ENERGIZED_NSFW=https://block.energized.pro/porn/formats/domains.txt" >> $GITHUB_ENV
@@ -195,8 +195,8 @@ jobs:
           curl -sSL $WIN_EXTRA | grep "0.0.0.0" | awk '{print $2}' > win-extra.txt
           curl -sSL $OISD_FULL | grep "0.0.0.0" | awk '{print $2}' > ./community/data/temp-oisd-full
           curl -sSL $OISD_FULL | grep "0.0.0.0" | awk '{print $2}' > temp-oisd-full.txt
-          curl -sSL $1HOST_PRO | grep "0.0.0.0" | awk '{print $2}' > ./community/data/temp-1hosts-pro
-          curl -sSL $1HOSTS_PRO | grep "0.0.0.0" | awk '{print $2}' > temp-1hosts-pro.txt
+          curl -sSL $ONEHOST_PRO | grep "0.0.0.0" | awk '{print $2}' > ./community/data/temp-1hosts-pro
+          curl -sSL $ONEHOST_PRO | grep "0.0.0.0" | awk '{print $2}' > temp-1hosts-pro.txt
           curl -sSL $ANUDEEP_ADS | grep "0.0.0.0" | awk '{print $2}' > ./community/data/temp-1hosts-pro
           curl -sSL $ANUDEEP_ADS | grep "0.0.0.0" | awk '{print $2}' > temp-1hosts-pro.txt
           curl -sSL $YHOSTS | grep "0.0.0.0" | awk '{print $2}' > ./community/data/temp-yhosts
