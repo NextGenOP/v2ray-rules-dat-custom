@@ -2,7 +2,7 @@ name: Build V2Ray rules dat files
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 22 * * *"
+    - cron: "0 02 * * Sun"
   push:
     branches:
       - master
@@ -74,11 +74,11 @@ jobs:
           repository: Loyalsoldier/domain-list-custom
           path: custom
 
-      - name: Checkout v2fly/domain-list-community
-        uses: actions/checkout@v3
-        with:
-          repository: v2fly/domain-list-community
-          path: community
+#      - name: Checkout v2fly/domain-list-community
+#        uses: actions/checkout@v3
+#        with:
+#          repository: v2fly/domain-list-community
+#          path: community
 
       - name: Checkout cokebar/gfwlist2dnsmasq
         uses: actions/checkout@v3
@@ -99,6 +99,7 @@ jobs:
 
       - name: Get and add direct domains into temp-direct.txt file
         run: |
+          mkdir -p ./community/data
           curl -sSL $CHINA_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' > temp-direct.txt
           curl -sSL ${CUSTOM_DIRECT} | perl -ne '/^(domain):([^:]+)(\n$|:@.+)/ && print "$2\n"' >> temp-direct.txt
 
@@ -165,8 +166,6 @@ jobs:
           cat temp-geolocation-\!cn.txt | sort --ignore-case -u | perl -ne 'print if not /^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/' > proxy-tld-list.txt
           cat temp-category-ads-all.txt | sort --ignore-case -u | perl -ne '/^((?=^.{1,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})*)/ && print "$1\n"' > ./community/data/category-ads-all
           cat temp-category-ads-all.txt | sort --ignore-case -u | perl -ne 'print if not /^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/' > reject-tld-list.txt
-          rm -f temp-*
-
 
       - name: Add `full`, `regexp` and `keyword` type of rules back into "cn", "geolocation-!cn" and "category-ads-all" list
         run: |
@@ -176,6 +175,7 @@ jobs:
           cp ./community/data/cn direct-list.txt
           cp ./community/data/geolocation-\!cn proxy-list.txt
           cp ./community/data/category-ads-all reject-list.txt
+          rm -f temp-* ./community/data/temp-*
 
       - name: Create `google-cn`、`apple-cn`、`gfw`、`greatfire` lists
         run: |
@@ -273,8 +273,8 @@ jobs:
           sort --ignore-case -u temp-prevent-bypass.txt > prevent-bypass.txt
           cp ./prevent-bypass.txt ./community/data/prevent-bypass
           cp ./adblock.txt ./community/data/adblock
-          rm -f temp*.txt ./community/data/temp*
-          rm -f *temp.txt ./community/data/*temp
+          rm -f temp-*.txt ./community/data/temp-*
+          rm -f *-temp.txt ./community/data/*-temp
 
       - name: Build geosite.dat file
         run: |
@@ -296,7 +296,7 @@ jobs:
           sha256sum rules.zip > rules.zip.sha256sum
 
       - name: Release and upload assets
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v0.1.6
         with:
           name: ${{ env.RELEASE_NAME }}
           tag_name: ${{ env.TAG_NAME }}
