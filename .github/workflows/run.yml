@@ -266,6 +266,8 @@ jobs:
           done
       - name: Combining some filter
         run: |
+          cp ./sameadblock.txt ./community/data/sameadblock
+          cp ./samensfw.txt ./community/data/samensfw
           cp ./nsfw.txt ./community/data/adult
           cp ./adblock.txt ./community/data/adblock
           sort --ignore-case -u temp-prevent-bypass.txt > prevent-bypass.txt
