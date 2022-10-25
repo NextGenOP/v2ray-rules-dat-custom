@@ -247,7 +247,7 @@ jobs:
         run: |
           
           sort temp-* |uniq -d > sameadblock.txt
-          sort *-temp |uniq -d > samensfw.txt
+          sort *-temp.txt |uniq -d > samensfw.txt
           echo "include:sameadblock" >> adblock.txt
           echo "include:samensfw" >> nsfw.txt
           for adblock in temp-*
